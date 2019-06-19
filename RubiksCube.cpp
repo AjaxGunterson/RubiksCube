@@ -385,27 +385,83 @@ void Cube::rotate(Direction direction, Side side) {
 }
 
 void Cube::swapper(Direction direction, bool isVertical, int rowOrCol, Side side) {
-	Cube tempCube(cubeSize);
 	vector<CubeColor> tempRow;
 	tempRow.resize(cubeSize);
-	tempCube.cubeFaceTransfer(*this, side);
-	if (isVertical) {
+
+	//tempCube.cubeFaceTransfer(*this, side);
+	if (isVertical) {//vertical moves
 		if (direction) {//clockwise
-			for (int i = 0; i < cubeSize; i++) {
-				tempRow[i] = tempCube.front[i][rowOrCol];
-				tempCube.front[i][rowOrCol] = tempCube.bottom[i][rowOrCol];
-				tempCube.bottom[i][rowOrCol] = tempCube.back[i][rowOrCol];
-				tempCube.back[i][rowOrCol] = tempCube.top[i][rowOrCol];
-				tempCube.top[i][rowOrCol] = tempRow[i];
-			}
+			switch (side) {
+			case FRONT:
+				for (int i = 0; i < cubeSize; i++) {
+					tempRow[i] = front[i][rowOrCol];
+					front[i][rowOrCol] = bottom[i][rowOrCol];
+					bottom[i][rowOrCol] = back[i][(cubeSize - 1) - rowOrCol];
+					back[i][(cubeSize - 1) - rowOrCol] = top[i][rowOrCol];
+					top[i][rowOrCol] = tempRow[i];
+				}//end for
+				break;//end FRONT
+			case BACK:
+				switch (direction) {//switch direction
+				case CLOCKWISE:
+					direction = COUNTER_CLOCKWISE;
+					break;
+				case COUNTER_CLOCKWISE:
+					direction = CLOCKWISE;
+					break;
+				}//end switch
+				
+				//tempCube.cubeModifiedFaceTransfer(*this, side);
+			
+				this->swapper(direction, isVertical, (cubeSize - 1) - rowOrCol, FRONT);
+				break;//end BACK
+			case LEFT:
+				for (int i = 0; i < cubeSize; i++) {
+					tempRow[i] = left[i][rowOrCol];
+					left[i][rowOrCol] = bottom[(cubeSize - 1) - rowOrCol][i];
+					bottom[(cubeSize - 1) - rowOrCol][i] = right[i][(cubeSize - 1) - rowOrCol];
+					right[i][(cubeSize - 1) - rowOrCol] = top[rowOrCol][i];
+					top[rowOrCol][i] = tempRow[i];
+				}//end for
+				break;
+			case RIGHT:
+				switch (direction) {//switch direction
+				case CLOCKWISE:
+					direction = COUNTER_CLOCKWISE;
+					break;
+				case COUNTER_CLOCKWISE:
+					direction = CLOCKWISE;
+					break;
+				}//end switch
+
+				this->swapper(direction, isVertical, (cubeSize - 1) - rowOrCol, LEFT);
+				break;//end RIGHT
+			}//end switch
+			
 		}//counter clockwise
 		else {
-			for (int i = 0; i < cubeSize; i++) {
-				tempRow[i] = tempCube.front[i][rowOrCol];
-				tempCube.front[i][rowOrCol] = tempCube.top[i][rowOrCol];
-				tempCube.top[i][rowOrCol] = tempCube.back[i][rowOrCol];
-				tempCube.back[i][rowOrCol] = tempCube.bottom[i][rowOrCol];
-				tempCube.bottom[i][rowOrCol] = tempRow[i];
+			switch (side) {
+			case FRONT:
+				for (int i = 0; i < cubeSize; i++) {
+					tempRow[i] = front[i][rowOrCol];
+					front[i][rowOrCol] = top[i][rowOrCol];
+					top[i][rowOrCol] = back[i][(cubeSize - 1) - rowOrCol];
+					back[i][(cubeSize - 1) - rowOrCol] = bottom[i][rowOrCol];
+					bottom[i][rowOrCol] = tempRow[i];
+				}
+				break;
+			case LEFT:
+				for (int i = 0; i < cubeSize; i++) {
+					tempRow[i] = left[i][rowOrCol];
+					left[i][rowOrCol] = top[rowOrCol][i];
+					top[rowOrCol][i] = right[i][(cubeSize - 1) - rowOrCol];
+					right[i][(cubeSize - 1) - rowOrCol] = bottom[(cubeSize - 1) - rowOrCol][i];
+					bottom[(cubeSize - 1) - rowOrCol][i] = tempRow[i];
+				}//end for
+				break;
+			case RIGHT:
+
+				break;
 			}
 		}
 
@@ -431,7 +487,8 @@ void Cube::swapper(Direction direction, bool isVertical, int rowOrCol, Side side
 		}
 		
 	}
-	this->cubeModifiedFaceTransfer(tempCube, side);
+
+	//this->cubeModifiedFaceTransfer(tempCube, side);
 	//*this = tempCube;
 }
 
