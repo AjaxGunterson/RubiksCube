@@ -460,7 +460,7 @@ void Cube::swapper(Direction direction, bool isVertical, int rowOrCol, Side side
 				}//end for
 				break;
 			case RIGHT:
-
+				this->swapper(direction, isVertical, (cubeSize - 1) - rowOrCol, LEFT);
 				break;
 			}
 		}
@@ -469,20 +469,32 @@ void Cube::swapper(Direction direction, bool isVertical, int rowOrCol, Side side
 	else {//is horizontal
 		if (direction) {//clockwise
 			for (int i = 0; i < cubeSize; i++) {
-				tempRow[i] = front[rowOrCol][i];
+				/*tempRow[i] = front[rowOrCol][i];
 				front[rowOrCol][i] = left[rowOrCol][i];
 				left[rowOrCol][i] = back[rowOrCol][i];
 				back[rowOrCol][i] = right[rowOrCol][i];
-				right[rowOrCol][i] = tempRow[i];
-			}
-		}//counter clockwise
-		else {
-			for (int i = 0; i < cubeSize; i++) {
+				right[rowOrCol][i] = tempRow[i];*/
+
 				tempRow[i] = front[rowOrCol][i];
 				front[rowOrCol][i] = right[rowOrCol][i];
 				right[rowOrCol][i] = back[rowOrCol][i];
 				back[rowOrCol][i] = left[rowOrCol][i];
 				left[rowOrCol][i] = tempRow[i];
+			}
+		}//counter clockwise
+		else {
+			for (int i = 0; i < cubeSize; i++) {
+				/*tempRow[i] = front[rowOrCol][i];
+				front[rowOrCol][i] = right[rowOrCol][i];
+				right[rowOrCol][i] = back[rowOrCol][i];
+				back[rowOrCol][i] = left[rowOrCol][i];
+				left[rowOrCol][i] = tempRow[i];*/
+
+				tempRow[i] = front[rowOrCol][i];
+				front[rowOrCol][i] = left[rowOrCol][i];
+				left[rowOrCol][i] = back[rowOrCol][i];
+				back[rowOrCol][i] = right[rowOrCol][i];
+				right[rowOrCol][i] = tempRow[i];
 			}
 		}
 		

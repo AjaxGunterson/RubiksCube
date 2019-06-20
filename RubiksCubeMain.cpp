@@ -13,8 +13,8 @@ int main()
 	Cube rubik(CUBE_SIZE),
 		rubik2(CUBE_SIZE);
 
-	rubik.move(CLOCKWISE, 0, LEFT);
-	rubik.move(COUNTER_CLOCKWISE, 0, LEFT);
+	//rubik.move(CLOCKWISE, 0, FRONT);
+	rubik.move(CLOCKWISE, 5, FRONT);
 	rubik.display(ALL);
 
 	return 0;
