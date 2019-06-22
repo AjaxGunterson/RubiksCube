@@ -742,6 +742,8 @@ vector<vector<CubeColor>> Cube::getSide(Side side) {
 	case BOTTOM:
 		return bottom;
 		break;
+	default:
+		break;
 	}
 }
 
