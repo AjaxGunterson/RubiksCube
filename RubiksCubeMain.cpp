@@ -37,8 +37,8 @@ int test = 0;
 int main(int argc, char *argv[])
 {
 	GLFWwindow* window;
-	
-	char name[] = {"Rubik's Cube"};
+
+	char name[] = { "Rubik's Cube" };
 
 	//remember to check vsync here
 	initializeWindow(window, 400, 400, name, 1);
@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
 }
 
 int initializeWindow(GLFWwindow *&window, int xRes, int yRes, char* applicationName, int vsync) {
-	
+
 	/* Initialize the library */
 	if (!glfwInit())
 		return -1;
@@ -229,7 +229,7 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	if (action == GLFW_RELEASE)
 		return;
-	
+
 	switch (key) {
 	case GLFW_KEY_ESCAPE:
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
