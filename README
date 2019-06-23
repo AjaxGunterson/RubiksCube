@@ -1,0 +1,64 @@
+To any homies whom'st this may concern. (Rubik's company call me)
+
+/*Intoduction*/
+/*****************************************************************************************************************************
+* Making an opengl viewing port for my rubik's cube simulation that I've made.
+*
+* Right now it's super not intuative at all because I just want to make sure I can get it to work before making it pretty.
+*
+* The view is you looking at the front face up, but (hopefully) I'll be able to make it into a 3d model where you can see
+* all sides since the groundwork is basically there, I just need to get the 3d part to work.
+******************************************************************************************************************************/
+
+/*Controls*/
+/*****************************************************************************************************************************
+* It's pretty safe to say these controls are super arbitrary until I get something cool and neat set up for real, these
+* aren't even really supposed to be used by people and will probably change a lot during devlopment. I might not even
+* update the readme!
+*
+* All moves are made using the right-hand rule. If you are looking at the cube face on it works as if you will reach your
+* right hand in on the piece and turn it clockwise (from the right or top), same with the top. If you were to turn a vertical
+* piece clockwise it would be turned up, likewise, if you a horizontal pice clockwise it means to turn the horizontal piece to
+* the left.
+*
+* How the movement system works right now (and later just internally) possible pieces to be turned on the cube will be numbered
+* 0 through cubeSize * 2 - 1. where 0 through cubeSize - 1 are the vertical pieces going from left to right and pieces cubeSize
+* through cubeSize * 2 - 1 are all horizontal pieces from top to bottom. This means that possible pieces to move will be 0
+* through 5 on a normal 3x3 cube.
+*
+*****************************************************************************************************************************/
+
+
+switch (key) {
+	case GLFW_KEY_ESCAPE:
+
+	Q: rubik.move(CLOCKWISE, 0, FRONT);
+	W: rubik.move(CLOCKWISE, 1, FRONT);
+	E: rubik.move(CLOCKWISE, 2, FRONT);
+  R: rubik.move(CLOCKWISE, 3, FRONT);
+  A: rubik.move(CLOCKWISE, 4, FRONT);
+	case GLFW_KEY_S:
+		rubik.move(CLOCKWISE, 5, FRONT);
+		break;
+	case GLFW_KEY_D:
+		rubik.move(CLOCKWISE, 6, FRONT);
+		break;
+	case GLFW_KEY_F:
+		rubik.move(CLOCKWISE, 7, FRONT);
+		break;
+	case GLFW_KEY_Z:
+		rubik.move(CLOCKWISE, 8, FRONT);
+		break;
+	case GLFW_KEY_X:
+		rubik.move(CLOCKWISE, 9, FRONT);
+		break;
+	case GLFW_KEY_C:
+		rubik.move(CLOCKWISE, 10, FRONT);
+		break;
+	case GLFW_KEY_V:
+		rubik.move(CLOCKWISE, 11, FRONT);
+		break;
+	case GLFW_KEY_B:
+		rubik.move(CLOCKWISE, 12, FRONT);
+		break;
+	}
