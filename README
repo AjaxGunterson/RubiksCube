@@ -28,37 +28,18 @@ To any homies whom'st this may concern. (Rubik's company call me)
 *
 *****************************************************************************************************************************/
 
+ESC: exit that dang thing.
+Q: rubik.move(CLOCKWISE, 0, FRONT);
+W: rubik.move(CLOCKWISE, 1, FRONT);
+E: rubik.move(CLOCKWISE, 2, FRONT);
+R: rubik.move(CLOCKWISE, 3, FRONT);
+A: rubik.move(CLOCKWISE, 4, FRONT);
+S: rubik.move(CLOCKWISE, 5, FRONT);
+D: rubik.move(CLOCKWISE, 6, FRONT);
+F: rubik.move(CLOCKWISE, 7, FRONT);
+Z: rubik.move(CLOCKWISE, 8, FRONT);
+X: rubik.move(CLOCKWISE, 9, FRONT);
+C: rubik.move(CLOCKWISE, 10, FRONT);
+V: rubik.move(CLOCKWISE, 11, FRONT);
+B: rubik.move(CLOCKWISE, 12, FRONT);
 
-switch (key) {
-	case GLFW_KEY_ESCAPE:
-
-	Q: rubik.move(CLOCKWISE, 0, FRONT);
-	W: rubik.move(CLOCKWISE, 1, FRONT);
-	E: rubik.move(CLOCKWISE, 2, FRONT);
-  R: rubik.move(CLOCKWISE, 3, FRONT);
-  A: rubik.move(CLOCKWISE, 4, FRONT);
-	case GLFW_KEY_S:
-		rubik.move(CLOCKWISE, 5, FRONT);
-		break;
-	case GLFW_KEY_D:
-		rubik.move(CLOCKWISE, 6, FRONT);
-		break;
-	case GLFW_KEY_F:
-		rubik.move(CLOCKWISE, 7, FRONT);
-		break;
-	case GLFW_KEY_Z:
-		rubik.move(CLOCKWISE, 8, FRONT);
-		break;
-	case GLFW_KEY_X:
-		rubik.move(CLOCKWISE, 9, FRONT);
-		break;
-	case GLFW_KEY_C:
-		rubik.move(CLOCKWISE, 10, FRONT);
-		break;
-	case GLFW_KEY_V:
-		rubik.move(CLOCKWISE, 11, FRONT);
-		break;
-	case GLFW_KEY_B:
-		rubik.move(CLOCKWISE, 12, FRONT);
-		break;
-	}
