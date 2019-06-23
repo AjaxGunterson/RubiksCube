@@ -1,8 +1,6 @@
 #include "Points.h"
 using namespace std;
 
-const int POINTS_PER_CUBE = 3;
-
 /*Default Constructor*/
 Point::Point() {
 	/*Default rubik's cube dimensions*/
@@ -20,20 +18,18 @@ void Point::load(vector<float> &points, int dimension) {
 	for (double i = 1; i > -1; i -= (1.0f / dimension) * 2) {
 		for (double j = -1; j < 1; j += (1.0f / dimension) * 2) {
 			/*bottom left*/
-			points.push_back(float(j));//current tile's left x
-			points.push_back(float(i) - (1.0f / dimension) * 2);//current tile's lower y
+			points.push_back(float(j));// x
+			points.push_back(float(i) - (1.0f / dimension) * 2);// y
 			/*top left*/
-			points.push_back(float(j));//current tile's left x
-			points.push_back(float(i));//current tile's upper y
+			points.push_back(float(j));// x
+			points.push_back(float(i));// y
 			/*top right*/
-			points.push_back(float(j) + (1.0f / dimension) * 2);//current tile's right x
-			points.push_back(float(i));//current tile's upper y
+			points.push_back(float(j) + (1.0f / dimension) * 2);// x
+			points.push_back(float(i));// y
 			/*bottom right*/
-			points.push_back(float(j) + (1.0f / dimension) * 2);//current tile's right x
-			points.push_back(float(i) - (1.0f / dimension) * 2);//current tile's lower y
-			cout << "Inner; " << "j = " << j << endl;
+			points.push_back(float(j) + (1.0f / dimension) * 2);// x
+			points.push_back(float(i) - (1.0f / dimension) * 2);// y
 		}
-		//cout << "Outer; " << "i = " << i << endl;
 	}
 }
 

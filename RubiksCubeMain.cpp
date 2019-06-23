@@ -21,14 +21,19 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
 
 //global variables
-const int CUBE_SIZE = 13;
+//x by x dimension of cube
+const int CUBE_SIZE = 3;
+//8 total points required to render a cube, 4 x,y points
 const int POINTS_PER_SIDE = 8 * CUBE_SIZE * CUBE_SIZE;
+//4 x,y points required to render each square
 const int POINTS_PER_SQUARE = 4;
 Cube rubik(CUBE_SIZE);
 Point cubePoints(rubik.getSize());
 int test = 0;
 
-//remember to check vsync if running bad
+/*remember to check vsync if running bad, 1 is on 0 is off.
+* higher turns cap even lower
+*/
 int main(int argc, char *argv[])
 {
 	GLFWwindow* window;
@@ -134,7 +139,7 @@ void mainLoop(GLFWwindow *& window) {
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
-		/*Only use ms OR fps*/
+		/*Only use ms OR fps, not both*/
 		//showMs(nbFrames, lastTime);
 		//showFps(nbFrames, lastTime);
 
@@ -143,18 +148,14 @@ void mainLoop(GLFWwindow *& window) {
 
 		for (int i = 0; i < CUBE_SIZE * CUBE_SIZE * POINTS_PER_SQUARE; i += POINTS_PER_SQUARE) {
 
-			//Don't want to disrupt i
-			//find value that doesn't artifact at 9 and most above
+			//Don't want to disrupt i so make fake loop counter here
 			k = ((i / POINTS_PER_SQUARE) / CUBE_SIZE);
-			//cout << k << endl;
 
 			//vertexes per square * num of squares
 			if ((i % (POINTS_PER_SQUARE * rubik.getSize())) == 0) {
 				j = 0;
 			}
-			//cout << k << endl;
 
-			//j is currently fine, find a way for k to work
 			switch (rubik.getSide(FRONT)[k][j]) {
 			case WHITE:
 				glColor3b(127, 127, 127);
@@ -182,6 +183,7 @@ void mainLoop(GLFWwindow *& window) {
 			j++;
 		}
 
+		//reset fake internal counter
 		j = 0;
 
 		/* Swap front and back buffers */
