@@ -838,7 +838,7 @@ void Cube::display(Side side) {
 	}
 }//end display
 
-int Cube::getSize() {
+int Cube::getSize() {	
 	return cubeSize;
 }
 

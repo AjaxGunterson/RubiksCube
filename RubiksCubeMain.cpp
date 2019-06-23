@@ -23,18 +23,19 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 //global variables
 const int CUBE_SIZE = 3;
 const int POINTS_PER_SIDE = 8 * CUBE_SIZE * CUBE_SIZE;
+const int POINTS_PER_SQUARE = 4;
+Cube rubik(CUBE_SIZE);
+Point cubePoints(rubik.getSize());
 int test = 0;
 
+//remember to check vsync if running bad
 int main(int argc, char *argv[])
 {
 	GLFWwindow* window;
-
-	Cube rubik(CUBE_SIZE);
-
-	Point cubePoints(CUBE_SIZE);
 	
 	char name[] = {"Rubik's Cube"};
 
+	//remember to check vsync here
 	initializeWindow(window, 400, 400, name, 1);
 
 	GLenum err = glewInit();
@@ -129,55 +130,80 @@ void initUtils(ShaderUtil &shaderUtil) {
 
 void mainLoop(GLFWwindow *& window) {
 
+	vector<float> temp = cubePoints.getPoints();
 
-	vector<float> squarePoints = {
-
-		// bottom Left
-		-0.2f, -0.2f,
-
-		// top left
-		-0.2f, 0.2f,
-
-		//top right
-		0.2f, 0.2f,
-
-		//bottom Right
-		0.2f, -0.2f
-
-	};
+	/*for (int i = 0; i < temp.size(); i++) {
+		cout << temp[i] << endl;
+	}*/
 
 	//points to vector
-	float *points = &squarePoints[0];
-
-	// Points for triangle
-	//float points[8] = Point::triangle;
-	float pointso[8];
+	float *points = &temp[0];
 
 	//double test = 0;
 	double lastTime = glfwGetTime();
 	int nbFrames = 0;
+	int j = 0,
+		k = 0;
 	
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
 		/*Only use ms OR fps*/
 		//showMs(nbFrames, lastTime);
-		showFps(nbFrames, lastTime);
+		//showFps(nbFrames, lastTime);
 
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// Draw triangle
+		for (int i = 0; i < CUBE_SIZE * CUBE_SIZE * POINTS_PER_SQUARE; i += POINTS_PER_SQUARE) {
+			
+			//Don't want to disrupt i
+			//find value that doesn't artifact at 13-19
+			k = ((i / POINTS_PER_SQUARE) / CUBE_SIZE);
 
-		glColor3b(0, test, 0);
-		glDrawArrays(GL_QUADS, 0, 4);
+			//vertexes per square * num of squares
+			if ((i % (POINTS_PER_SQUARE * rubik.getSize())) == 0) {
+				j = 0;
+			}
+			//cout << k << endl;
 
-		//glDrawArrays(GL_TRIANGLES, test, 3);
+			//j is currently fine, find a way for k to work
+			switch (rubik.getSide(FRONT)[k][j]) {
+			case WHITE:
+				glColor3b(127, 127, 127);
+				break;
+			case BLUE:
+				glColor3b(0, 0, 127);
+				break;
+			case GREEN:
+				glColor3b(0, 127, 0);
+				break;
+			case ORANGE:
+				glColor3b(127, 80, 0);
+				break;
+			case RED:
+				glColor3b(127, 0, 0);
+				break;
+			case YELLOW:
+				glColor3b(127, 127, 0);
+				break;
+			default:
+				glColor3b(20, 20, 100);
+				break;
+			}
+			glDrawArrays(GL_QUADS, i, i + POINTS_PER_SQUARE);
+			j++;
+		}
+
+		j = 0;
+		
+		//glDrawArrays(GL_QUADS, 0, 4);
+
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
 
-		if (test < 100)
+		if (test < 127)
 			test++;
 
 		glBufferData(GL_ARRAY_BUFFER, POINTS_PER_SIDE * sizeof(float), points, GL_STATIC_DRAW);
@@ -218,14 +244,53 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+	if (action == GLFW_RELEASE)
+		return;
+	
 	switch (key) {
 	case GLFW_KEY_ESCAPE:
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 		glfwTerminate();
 		exit(1);
 		break;
-	case GLFW_KEY_K:
-		test = 0;
+	case GLFW_KEY_Q:
+		rubik.move(CLOCKWISE, 0, FRONT);
+		break;
+	case GLFW_KEY_W:
+		rubik.move(CLOCKWISE, 1, FRONT);
+		break;
+	case GLFW_KEY_E:
+		rubik.move(CLOCKWISE, 2, FRONT);
+		break;
+	case GLFW_KEY_R:
+		rubik.move(CLOCKWISE, 3, FRONT);
+		break;
+	case GLFW_KEY_A:
+		rubik.move(CLOCKWISE, 4, FRONT);
+		break;
+	case GLFW_KEY_S:
+		rubik.move(CLOCKWISE, 5, FRONT);
+		break;
+	case GLFW_KEY_D:
+		rubik.move(CLOCKWISE, 6, FRONT);
+		break;
+	case GLFW_KEY_F:
+		rubik.move(CLOCKWISE, 7, FRONT);
+		break;
+	case GLFW_KEY_Z:
+		rubik.move(CLOCKWISE, 8, FRONT);
+		break;
+	case GLFW_KEY_X:
+		rubik.move(CLOCKWISE, 9, FRONT);
+		break;
+	case GLFW_KEY_C:
+		rubik.move(CLOCKWISE, 10, FRONT);
+		break;
+	case GLFW_KEY_V:
+		rubik.move(CLOCKWISE, 11, FRONT);
+		break;
+	case GLFW_KEY_B:
+		rubik.move(CLOCKWISE, 12, FRONT);
 		break;
 	}
 }

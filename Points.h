@@ -15,6 +15,7 @@ class Point {
 public:
 	Point();
 	Point(int dimension);
+	vector<float> getPoints();
 private:
 	void load(vector<float> &points, int dimension);
 	vector<float> points;

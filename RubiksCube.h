@@ -32,7 +32,6 @@ public:
 	void resetCube();
 	void move(Direction direction, int piece, Side);
 	void swapper(Direction direction, bool isVertical, int rowOrCol, Side side);
-	//Side getNeighbor(Side side, Neighbor direction);
 	int getSize();
 	vector<vector<CubeColor>> getSide(Side side);
 	void operator=(Cube cube2);
