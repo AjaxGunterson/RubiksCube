@@ -17,22 +17,23 @@ Point::Point(int dimension) {
 }
 
 void Point::load(vector<float> &points, int dimension) {
-	for (float i = 1; i > -1; i -= (float(1) / dimension) * 2) {
-		for (float j = -1; j < 1; j += (float(1) / dimension) * 2) {
+	for (double i = 1; i > -1; i -= (1.0f / dimension) * 2) {
+		for (double j = -1; j < 1; j += (1.0f / dimension) * 2) {
 			/*bottom left*/
-			points.push_back(float(j));
-			points.push_back(float(i) - (float(1) / dimension) * 2);
+			points.push_back(float(j));//current tile's left x
+			points.push_back(float(i) - (1.0f / dimension) * 2);//current tile's lower y
 			/*top left*/
-			points.push_back(float(j));
-			points.push_back(float(i));
+			points.push_back(float(j));//current tile's left x
+			points.push_back(float(i));//current tile's upper y
 			/*top right*/
-			points.push_back(float(j) + (float(1) / dimension) * 2);
-			points.push_back(float(i));
+			points.push_back(float(j) + (1.0f / dimension) * 2);//current tile's right x
+			points.push_back(float(i));//current tile's upper y
 			/*bottom right*/
-			points.push_back(float(j) + (float(1) / dimension) * 2);
-			points.push_back(float(i) - (float(1) / dimension) * 2);
-			
+			points.push_back(float(j) + (1.0f / dimension) * 2);//current tile's right x
+			points.push_back(float(i) - (1.0f / dimension) * 2);//current tile's lower y
+			cout << "Inner; " << "j = " << j << endl;
 		}
+		//cout << "Outer; " << "i = " << i << endl;
 	}
 }
 

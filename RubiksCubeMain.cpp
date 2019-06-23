@@ -21,7 +21,7 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
 
 //global variables
-const int CUBE_SIZE = 3;
+const int CUBE_SIZE = 13;
 const int POINTS_PER_SIDE = 8 * CUBE_SIZE * CUBE_SIZE;
 const int POINTS_PER_SQUARE = 4;
 Cube rubik(CUBE_SIZE);
@@ -92,22 +92,8 @@ int initializeWindow(GLFWwindow *&window, int xRes, int yRes, char* applicationN
 void initUtils(ShaderUtil &shaderUtil) {
 	shaderUtil.Load("shaders/vs.shader", "shaders/fs.shader");
 
-	// Points for triangle
-	float points[8] = {
-
-		// bottom Left
-		-0.2f, -0.2f,
-
-		// top left
-		-0.2f, 0.2f,
-
-		//top right
-		0.2f, 0.2f,
-
-		//bottom Right
-		0.2f, -0.2f
-
-	};
+	vector<float> temp = cubePoints.getPoints();
+	float *points = &temp[0];
 
 	unsigned int buffer;
 
@@ -144,7 +130,7 @@ void mainLoop(GLFWwindow *& window) {
 	int nbFrames = 0;
 	int j = 0,
 		k = 0;
-	
+
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
@@ -156,10 +142,11 @@ void mainLoop(GLFWwindow *& window) {
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		for (int i = 0; i < CUBE_SIZE * CUBE_SIZE * POINTS_PER_SQUARE; i += POINTS_PER_SQUARE) {
-			
+
 			//Don't want to disrupt i
-			//find value that doesn't artifact at 13-19
+			//find value that doesn't artifact at 9 and most above
 			k = ((i / POINTS_PER_SQUARE) / CUBE_SIZE);
+			//cout << k << endl;
 
 			//vertexes per square * num of squares
 			if ((i % (POINTS_PER_SQUARE * rubik.getSize())) == 0) {
@@ -196,15 +183,9 @@ void mainLoop(GLFWwindow *& window) {
 		}
 
 		j = 0;
-		
-		//glDrawArrays(GL_QUADS, 0, 4);
-
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
-
-		if (test < 127)
-			test++;
 
 		glBufferData(GL_ARRAY_BUFFER, POINTS_PER_SIDE * sizeof(float), points, GL_STATIC_DRAW);
 
