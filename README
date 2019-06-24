@@ -1,10 +1,10 @@
 To any homies whom'st this may concern. (Rubik's company call me)
 
-Currently what that ish looks like (3x3) -> https://i.imgur.com/w2jmgmd.png
+Currently what that ish looks like (3x3) -> https://i.imgur.com/Db2Ybp7.png
 
-But it can also look like (2x2) -> https://i.imgur.com/p0mPo8W.png
+But it can also look like (2x2) -> https://i.imgur.com/mrbSYc9.png
 
-Or it can look like (125x125) woah! (my computer didn't like much more than that ):) -> https://i.imgur.com/dxCmI1H.png
+Or it can look like (200x200) woah! (my computer didn't like much more than that ):) -> https://i.imgur.com/RBJok5Y.png
 
 /*Intoduction*/
 /*****************************************************************************************************************************
@@ -35,17 +35,18 @@ Or it can look like (125x125) woah! (my computer didn't like much more than that
 *****************************************************************************************************************************/
 
 ESC: exit that dang thing.
-Q: rubik.move(CLOCKWISE, 0, FRONT);
-W: rubik.move(CLOCKWISE, 1, FRONT);
-E: rubik.move(CLOCKWISE, 2, FRONT);
-R: rubik.move(CLOCKWISE, 3, FRONT);
-A: rubik.move(CLOCKWISE, 4, FRONT);
-S: rubik.move(CLOCKWISE, 5, FRONT);
-D: rubik.move(CLOCKWISE, 6, FRONT);
-F: rubik.move(CLOCKWISE, 7, FRONT);
-Z: rubik.move(CLOCKWISE, 8, FRONT);
-X: rubik.move(CLOCKWISE, 9, FRONT);
-C: rubik.move(CLOCKWISE, 10, FRONT);
-V: rubik.move(CLOCKWISE, 11, FRONT);
-B: rubik.move(CLOCKWISE, 12, FRONT);
 
+Q: Display face
+W: Display back
+E: Display left
+A: Display right
+S: Display top
+D: Display bottom
+F: Scroll through faces
+
+R: Toggle between row and column
+
+Arrow_UP: Turn Clockwise
+Arrow_DOWN: Turn Counter-clockwise
+Arrow_LEFT: Move left / up
+Arrow_RIGHT: Move right / down
