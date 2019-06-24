@@ -68,16 +68,13 @@ void Cube::loadCube() {
 }
 
 void Cube::move(Direction direction, int piece, Side side) {
-	if (piece > cubeSize * 2 - 1) {
-		cout << "Piece too high" << endl;
-		return;
-	}
+	if (piece > cubeSize * 2 - 1) {return;}
 
 	int rowOrCol = piece % cubeSize;
 
 	if (piece >= cubeSize) {//move will be horizontal
 		if (piece == cubeSize) {//top will be turned
-			cout << "top selected" << endl;
+			//cout << "top selected" << endl;
 			switch (direction) {
 			case COUNTER_CLOCKWISE:
 				switch (side) {
@@ -120,7 +117,7 @@ void Cube::move(Direction direction, int piece, Side side) {
 			}
 		}
 		else if (piece == cubeSize * 2 - 1) {//bottom will be turned
-			cout << "Bottom selected" << endl;
+			//cout << "Bottom selected" << endl;
 			switch (direction) {
 			case COUNTER_CLOCKWISE:
 				switch (side) {
@@ -217,7 +214,7 @@ void Cube::move(Direction direction, int piece, Side side) {
 			}
 		}
 		else if (piece == cubeSize - 1) {//right will be turned
-			cout << "right selected" << endl;
+			//cout << "right selected" << endl;
 			switch (direction) {
 			case COUNTER_CLOCKWISE:
 				switch (side) {
@@ -454,6 +451,20 @@ void Cube::swapper(Direction direction, bool isVertical, int rowOrCol, Side side
 					bottom[i][rowOrCol] = tempRow[i];
 				}
 				break;
+			case BACK:
+				switch (direction) {//switch direction
+				case CLOCKWISE:
+					direction = COUNTER_CLOCKWISE;
+					break;
+				case COUNTER_CLOCKWISE:
+					direction = CLOCKWISE;
+					break;
+				}//end switch
+
+				//tempCube.cubeModifiedFaceTransfer(*this, side);
+
+				this->swapper(direction, isVertical, (cubeSize - 1) - rowOrCol, FRONT);
+				break;//end BACK
 			case LEFT:
 				for (int i = 0; i < cubeSize; i++) {
 					tempRow[i] = left[i][rowOrCol];
