@@ -4,15 +4,15 @@ using namespace std;
 /*Default Constructor*/
 Point::Point() {
 	/*Default rubik's cube dimensions*/
-	this->load(points, 3);
+	this->load(points, demarcations,  3);
 }
 
 /*Explicit Constructor*/
 Point::Point(int dimension) {
-	this->load(points, dimension);
+	this->load(points, demarcations, dimension);
 }
 
-void Point::load(vector<float> &points, int dimension) {
+void Point::load(vector<float> &points, vector<float> &demarcations, int dimension) {
 	
 
 	/*hacked a solution to probably get rid of the black 
@@ -45,6 +45,52 @@ void Point::load(vector<float> &points, int dimension) {
 		k -= (1.0f / dimension) * 2;
 	}
 
+	k = 1;
+	p = -1;
+
+	demarcations.push_back(-1);
+	demarcations.push_back(1);
+	demarcations.push_back(-1);
+	demarcations.push_back(-1);
+
+	//vertical lines
+	for (int i = 0; i < dimension - 1; i++) {
+		p += (1.0f / dimension) * 2;
+		demarcations.push_back(p);
+		demarcations.push_back(1);
+		demarcations.push_back(p);
+		demarcations.push_back(-1);
+	}
+
+	demarcations.push_back(1);
+	demarcations.push_back(1);
+	demarcations.push_back(1);
+	demarcations.push_back(-1);
+
+	demarcations.push_back(-1);
+	demarcations.push_back(1);
+	demarcations.push_back(1);
+	demarcations.push_back(1);
+
+	//horizontal lines
+	for (int i = 0; i < dimension - 1; i++) {
+		k -= (1.0f / dimension) * 2;
+		demarcations.push_back(-1);
+		demarcations.push_back(k);
+		demarcations.push_back(1);
+		demarcations.push_back(k);
+	}
+
+	demarcations.push_back(-1);
+	demarcations.push_back(-1);
+	demarcations.push_back(1);
+	demarcations.push_back(-1);
+	
+
+}
+
+vector<float> Point::getDemarcations() {
+	return demarcations;
 }
 
 vector<float> Point::getPoints() {

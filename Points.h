@@ -16,9 +16,11 @@ public:
 	Point();
 	Point(int dimension);
 	vector<float> getPoints();
+	vector<float> getDemarcations();
 private:
-	void load(vector<float> &points, int dimension);
+	void load(vector<float> &points, vector<float> &demarcations, int dimension);
 	vector<float> points;
+	vector<float> demarcations;
 };
 
 //Prototypes

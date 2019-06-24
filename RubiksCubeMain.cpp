@@ -27,6 +27,7 @@ const int CUBE_SIZE = 3;
 const int POINTS_PER_SIDE = 8 * CUBE_SIZE * CUBE_SIZE;
 //4 x,y points required to render each square
 const int POINTS_PER_SQUARE = 4;
+Side currentSide = FRONT;
 Cube rubik(CUBE_SIZE);
 Point cubePoints(rubik.getSize());
 int test = 0;
@@ -41,7 +42,7 @@ int main(int argc, char *argv[])
 	char name[] = { "Rubik's Cube" };
 
 	//remember to check vsync here
-	initializeWindow(window, 400, 400, name, 1);
+	initializeWindow(window, 600, 600, name, 1);
 
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
@@ -100,6 +101,9 @@ void initUtils(ShaderUtil &shaderUtil) {
 	vector<float> temp = cubePoints.getPoints();
 	float *points = &temp[0];
 
+	vector<float> linesTemp = cubePoints.getDemarcations();
+	float *lines = &linesTemp[0];
+
 	unsigned int buffer;
 
 	// Create a buffer
@@ -109,7 +113,8 @@ void initUtils(ShaderUtil &shaderUtil) {
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 
 	// Init buffer
-	glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), points, GL_STATIC_DRAW);
+	//glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), points, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(float), lines, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
 
@@ -123,12 +128,11 @@ void mainLoop(GLFWwindow *& window) {
 
 	vector<float> temp = cubePoints.getPoints();
 
-	/*for (int i = 0; i < temp.size(); i++) {
-		cout << temp[i] << endl;
-	}*/
-
 	//points to vector
 	float *points = &temp[0];
+
+	vector<float> linesTemp = cubePoints.getDemarcations();
+	float *lines = &linesTemp[0];
 
 	//double test = 0;
 	double lastTime = glfwGetTime();
@@ -145,8 +149,10 @@ void mainLoop(GLFWwindow *& window) {
 
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT);
+		
 
-		for (int i = 0; i < CUBE_SIZE * CUBE_SIZE * POINTS_PER_SQUARE; i += POINTS_PER_SQUARE) {
+		/*Draw squares*/
+		for (int i = 0; i < rubik.getSize() * rubik.getSize() * POINTS_PER_SQUARE; i += POINTS_PER_SQUARE) {
 
 			//Don't want to disrupt i so make fake loop counter here
 			k = ((i / POINTS_PER_SQUARE) / CUBE_SIZE);
@@ -156,7 +162,7 @@ void mainLoop(GLFWwindow *& window) {
 				j = 0;
 			}
 
-			switch (rubik.getSide(FRONT)[k][j]) {
+			switch (rubik.getSide(currentSide)[k][j]) {
 			case WHITE:
 				glColor3b(127, 127, 127);
 				break;
@@ -185,6 +191,27 @@ void mainLoop(GLFWwindow *& window) {
 
 		//reset fake internal counter
 		j = 0;
+
+		glClear(GL_ARRAY_BUFFER);
+
+		//6 * 8 is added to compensate for edge sides
+		glBufferData(GL_ARRAY_BUFFER, (rubik.getSize() - 1) * 2 * 4 * sizeof(float) + (6 * 8), lines, GL_STATIC_DRAW);
+
+		/*Draw demarcations*/
+		glColor3b(0, 0, 0);
+		//2 because points per line
+		glDrawArrays(GL_LINES, 0, 4 * (rubik.getSize() - 1) + 6);
+
+		glColor3b(127, 0, 127);
+		if (test < rubik.getSize()) {
+			glDrawArrays(GL_LINES, (test * 2), 4);
+		}
+		else {
+			glDrawArrays(GL_LINES, (test * 2) + 2, 4);
+		}
+		
+
+		glClear(GL_ARRAY_BUFFER);
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
@@ -237,43 +264,70 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		exit(1);
 		break;
 	case GLFW_KEY_Q:
-		rubik.move(CLOCKWISE, 0, FRONT);
+		currentSide = FRONT;
 		break;
 	case GLFW_KEY_W:
-		rubik.move(CLOCKWISE, 1, FRONT);
+		currentSide = BACK;
 		break;
 	case GLFW_KEY_E:
-		rubik.move(CLOCKWISE, 2, FRONT);
-		break;
-	case GLFW_KEY_R:
-		rubik.move(CLOCKWISE, 3, FRONT);
+		currentSide = LEFT;
 		break;
 	case GLFW_KEY_A:
-		rubik.move(CLOCKWISE, 4, FRONT);
+		currentSide = RIGHT;
 		break;
 	case GLFW_KEY_S:
-		rubik.move(CLOCKWISE, 5, FRONT);
+		currentSide = TOP;
 		break;
 	case GLFW_KEY_D:
-		rubik.move(CLOCKWISE, 6, FRONT);
+		currentSide = BOTTOM;
+		break;
+	case GLFW_KEY_R:
+		if (test > rubik.getSize() - 1) {
+			test -= rubik.getSize();
+		}
+		else {
+			test += rubik.getSize();
+		}
 		break;
 	case GLFW_KEY_F:
-		rubik.move(CLOCKWISE, 7, FRONT);
+		switch (currentSide) {
+		case FRONT:
+			currentSide = BACK;
+			break;
+		case BACK:
+			currentSide = LEFT;
+			break;
+		case LEFT:
+			currentSide = RIGHT;
+			break;
+		case RIGHT:
+			currentSide = TOP;
+			break;
+		case TOP:
+			currentSide = BOTTOM;
+			break;
+		case BOTTOM:
+			currentSide = FRONT;
+			break;
+		}
 		break;
-	case GLFW_KEY_Z:
-		rubik.move(CLOCKWISE, 8, FRONT);
+	case GLFW_KEY_UP:
+		rubik.move(CLOCKWISE, test, currentSide);
 		break;
-	case GLFW_KEY_X:
-		rubik.move(CLOCKWISE, 9, FRONT);
+	case GLFW_KEY_DOWN:
+		rubik.move(COUNTER_CLOCKWISE, test, currentSide);
 		break;
-	case GLFW_KEY_C:
-		rubik.move(CLOCKWISE, 10, FRONT);
+	case GLFW_KEY_RIGHT:
+		if (test == rubik.getSize() - 1) { return; }
+		
+		if (test >= rubik.getSize() * 2 - 1) {return;}
+		test++;
 		break;
-	case GLFW_KEY_V:
-		rubik.move(CLOCKWISE, 11, FRONT);
-		break;
-	case GLFW_KEY_B:
-		rubik.move(CLOCKWISE, 12, FRONT);
+	case GLFW_KEY_LEFT:
+		if (test == rubik.getSize()) { return; }
+
+		if (test <= 0) {return;}
+		test--;
 		break;
 	}
 }
